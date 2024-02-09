@@ -18,6 +18,12 @@ const questions = [
     name: 'usage',
     message: 'Please provide instructions for using your project.'
   },
+
+{
+    type:'list', 'message':'What license would you like to use?','name':'license',
+'choices':['MIT','GPLv2','Apache License Version 2.0']
+},
+
   {
     name: 'contributing',
     message: 'Please provide instructions for contributing to your project.'
@@ -64,6 +70,7 @@ function askQuestion(index) {
       - [Description](#description)
       - [Installation](#installation)
       - [Usage](#usage)
+      - [License](#license)
       - [Contributing](#contributing)
       - [Tests](#tests)
       - [Questions](#questions)
@@ -81,6 +88,9 @@ function askQuestion(index) {
       ## Usage
       <a name="usage"></a>
       ${answers.usage}
+
+##  License
+This project is licensed under the ${answers.license}.
 
       ## Contributing
       <a name="contributing"></a>
@@ -105,5 +115,4 @@ function askQuestion(index) {
 askQuestion(0);
 
 function writeToFile(readmeTemplate) {
-  // code to write the `readmeTemplate` string to a file
 }
