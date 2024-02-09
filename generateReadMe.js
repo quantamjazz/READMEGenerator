@@ -1,72 +1,59 @@
-import { createInterface } from 'readline';
-import fs from 'fs';
-
-const writeToFile = (data) => {
-  fs.writeFile('README.md', data, (err) => {
-    if (err) {
-      console.error('Error writing to file:', err);
-    } else {
-      console.log('README file has been successfully created!');
-    }
-  });
-};
-
-const questions = [
-  { type: 'input', name: 'title', message: 'What is your project title?' },
-  { type: 'input', name: 'description', message: 'Please provide a description of your project:' },
-  { type: 'input', name: 'installation', message: 'What are the installation instructions?' },
-  { type: 'input', name: 'usage', message: 'How do you use this project?' },
-  { type: 'input', name: 'contributing', message: 'How can others contribute to this project?' },
-  { type: 'input', name: 'tests', message: 'What tests have been run on this project?' },
-  { type: 'input', name: 'github', message: 'What is your GitHub username?' },
-  { type: 'input', name: 'email', message: 'What is your email address?' },
-];
-
-const answers = {};
-
-const rl = createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
 function askQuestion(index) {
-  const question = questions[index];
-
-  rl.question(question.message, (input) => {
-    answers[question.name] = input;
-
-    if (index < questions.length - 1) {
-      askQuestion(index + 1);
-    } else {
-      rl.close();
-      const readmeTemplate = `
-  # ${answers.title}
+    const question = questions[index];
   
-  ## Description
-  ${answers.description}
+    rl.question(question.message, (input) => {
+      answers[question.name] = input;
   
-  ## Installation
-  ${answers.installation}
+      if (index < questions.length - 1) {
+        askQuestion(index + 1);
+      } else {
+        rl.close();
+        let readmeTemplate = `
+    # ${answers.title}
+    `;
   
-  ## Usage
-  ${answers.usage}
+    // Add Table of Contents
+    readmeTemplate += `
+    ## Table of Contents
+    - [Description](#description)
+    - [Installation](#installation)
+    - [Usage](#usage)
+    - [Contributing](#contributing)
+    - [Tests](#tests)
+    - [Questions](#questions)
+    `;
   
-  ## Contributing
-  ${answers.contributing}
+    // Add sections with anchors
+    readmeTemplate += `
+    ## Description
+    <a name="description"></a>
+    ${answers.description}
   
-  ## Tests
-  ${answers.tests}
+    ## Installation
+    <a name="installation"></a>
+    ${answers.installation}
   
-  ## Questions
-  If you have any questions, please reach out to me at:
+    ## Usage
+    <a name="usage"></a>
+    ${answers.usage}
   
-  - GitHub: [${answers.github}](https://github.com/${answers.github})
-  - Email: ${answers.email}
-  `;
-
-      writeToFile(readmeTemplate);
-    }
-  });
-}
-
-askQuestion(0);
+    ## Contributing
+    <a name="contributing"></a>
+    ${answers.contributing}
+  
+    ## Tests
+    <a name="tests"></a>
+    ${answers.tests}
+  
+    ## Questions
+    <a name="questions"></a>
+    If you have any questions, please reach out to me at:
+  
+    - GitHub: [${answers.github}](https://github.com/${answers.github})
+    - Email: ${answers.email}
+    `;
+  
+        writeToFile(readmeTemplate);
+      }
+    });
+  }
