@@ -48,3 +48,33 @@ function writeToFile(data) {
     askQuestion(0);
   }
   
+  function generateREADME(answers) {
+    const readmeTemplate = `
+  # ${answers.title}
+  
+  ## Description
+  ${answers.description}
+  
+  ## Installation
+  ${answers.installation}
+  
+  ## Usage
+  ${answers.usage}
+  
+  ## Contributing
+  ${answers.contributing}
+  
+  ## Tests
+  ${answers.tests}
+  
+  ## Questions
+  If you have any questions, please reach out to me at:
+  
+  - GitHub: [${answers.github}](https://github.com/${answers.github})
+  - Email: ${answers.email}
+  `;
+  
+    writeToFile(readmeTemplate);
+  }
+
+  
